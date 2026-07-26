@@ -53,15 +53,15 @@
 - **Effort**: 1h
 
 ### T10: Initial git commit
-- [ ] `git add -A`, review (no `.env`), commit
+- [x] `git add -A`, review (no `.env`), commit
 - **Validation**: `git log` ada 1 commit, `git status` clean
 - **Effort**: 0.5h
 
 ## Final Validation
-- [ ] Website load di `http://localhost:8000`
-- [ ] Hub load di `http://localhost:8001/hub/login`
-- [ ] Gym load di `http://localhost:8002`
-- [ ] Core model accessible dari ketiga app
-- [ ] Design tokens built (`dist/` terisi)
-- [ ] `pnpm install` berhasil
-- [ ] Git clean
+- [x] Website load di `http://localhost:8000`
+- [x] Hub load di `http://localhost:8001/hub/login`
+- [x] Gym load di `http://localhost:8002`
+- [x] Core model accessible dari ketiga app
+- [x] Design tokens built (`dist/` terisi)
+- [x] `pnpm install` berhasil
+- [x] Git clean
