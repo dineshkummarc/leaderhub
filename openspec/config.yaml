@@ -1,0 +1,45 @@
+schema: spec-driven
+
+context: |
+  Project: LeaderHub — platform terintegrasi untuk distributor alat fitness.
+  Monorepo dengan 3 aplikasi Laravel 12 + shared core package.
+  
+  Tech stack:
+    - PHP 8.2+, Laravel 12, Filament 5, Vue 3, Tailwind CSS 4
+    - MySQL 8.0 (kompatibel MariaDB 10.6+)
+    - pnpm workspace (monorepo)
+    - stancl/tenancy 3.x (LeadGym multi-tenant)
+    - Design system: Modern Premium (netral-first, aksen merah #DC2626, Inter font)
+  
+  Apps:
+    - apps/website — website publik (leaderhub.id) — Vue + Filament content admin
+    - apps/hub — LeaderP ERP (erp.leaderhub.id) — Filament 5
+    - apps/gym — LeadGym (gym.leaderhub.id) — Filament 5, multi-tenant
+    - core/ — shared package (models, services, migrations) — PSR-4 Leaderhub\Core\
+    - packages/design-tokens/ — design tokens (Style Dictionary)
+  
+  Conventions:
+    - Migrations di core/database/migrations/ (shared)
+    - Models di core/src/Models/ (shared, namespace Leaderhub\Core\Models)
+    - Services di core/src/Services/
+    - Multi-tenant models pakai BelongsToTenant trait + global scope
+    - FK: cascadeOnDelete untuk child, restrictOnDelete untuk reference kuat
+    - Naming: snake_case, plural table names
+    - Money: DECIMAL(15,2) IDR, DECIMAL(12,2) USD
+  
+  Deployment: cPanel VPS (Apache/LiteSpeed, cron-based queue, AutoSSL)
+  
+  Dokumentasi lengkap ada di docs/ (00-09 + tasks/phase-0 s/d phase-6).
+
+rules:
+  proposal:
+    - Keep proposals under 300 words
+    - Always include "Non-goals" section
+    - Reference the phase task doc (docs/tasks/phase-N-*.md)
+  design:
+    - Reference architecture doc (docs/02-architecture.md) and database schema (docs/03-database-schema.md)
+    - Specify which tables/models are affected
+  tasks:
+    - Break tasks into chunks of max 4 hours
+    - Each task must have validation criteria
+    - Reference the detailed step-by-step in docs/tasks/phase-N-*.md

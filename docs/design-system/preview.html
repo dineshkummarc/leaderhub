@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeaderHub — Design System Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Light (default) */
+    --bg: #FFFFFF;
+    --surface: #F8FAFC;
+    --surface-2: #F1F5F9;
+    --elevated: #FFFFFF;
+    --text: #0F172A;
+    --text-muted: #64748B;
+    --text-subtle: #94A3B8;
+    --border: #E2E8F0;
+    --border-strong: #CBD5E1;
+    --accent: #DC2626;
+    --accent-hover: #B91C1C;
+    --accent-soft: #FEF2F2;
+    --accent-ring: rgba(220,38,38,0.12);
+    --success: #16A34A;
+    --warning: #D97706;
+    --info: #2563EB;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.04), 0 1px 3px rgba(15,23,42,0.06);
+    --shadow-md: 0 4px 12px rgba(15,23,42,0.06), 0 2px 4px rgba(15,23,42,0.04);
+    --shadow-lg: 0 12px 32px rgba(15,23,42,0.10), 0 4px 8px rgba(15,23,42,0.06);
+    --radius: 10px;
+    --radius-lg: 14px;
+    --radius-full: 9999px;
+  }
+  html.dark {
+    --bg: #0B0F14;
+    --surface: #111821;
+    --surface-2: #1A2330;
+    --elevated: #131B26;
+    --text: #F1F5F9;
+    --text-muted: #94A3B8;
+    --text-subtle: #64748B;
+    --border: #1F2937;
+    --border-strong: #334155;
+    --accent: #EF4444;
+    --accent-hover: #F87171;
+    --accent-soft: rgba(239,68,68,0.10);
+    --accent-ring: rgba(239,68,68,0.18);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.45);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    transition: background 200ms, color 200ms;
+  }
+
+  /* Layout */
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+  header {
+    position: sticky; top: 0; z-index: 200;
+    height: 64px; background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  header .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .brand { font-weight: 700; font-size: 1.0625rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 22px; height: 22px; border-radius: 6px; background: var(--accent); display: inline-block; }
+  .brand .name { color: var(--text); }
+  .brand .name span { color: var(--text-muted); font-weight: 500; }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .toggle-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 7px 14px; border-radius: var(--radius);
+    font-family: inherit; font-weight: 500; font-size: 13px; cursor: pointer;
+    transition: all 180ms; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .toggle-btn:hover { border-color: var(--border-strong); background: var(--surface-2); }
+
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  section:first-of-type { padding-top: 56px; }
+  .eyebrow { font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 10px; }
+  .section-title { font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 6px; }
+  .section-sub { color: var(--text-muted); margin-bottom: 36px; font-size: 1rem; max-width: 640px; }
+
+  /* Color grid */
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .color-card { background: var(--elevated); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .color-swatch { height: 72px; }
+  .color-info { padding: 12px 14px; }
+  .color-name { font-weight: 600; font-size: 13px; letter-spacing: -0.01em; }
+  .color-hex { font-size: 12px; color: var(--text-muted); font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+  /* Typography */
+  .type-stack { display: flex; flex-direction: column; gap: 28px; }
+  .type-row { display: flex; align-items: baseline; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .type-meta { font-size: 11px; font-weight: 500; color: var(--text-subtle); min-width: 120px; font-variant-numeric: tabular-nums; }
+  .t-display { font-size: 3rem; font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; }
+  .t-h1 { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  .t-h2 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; }
+  .t-h3 { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+  .t-h4 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.3; }
+  .t-body-lg { font-size: 1.125rem; line-height: 1.6; color: var(--text); }
+  .t-body { font-size: 1rem; line-height: 1.6; color: var(--text); }
+  .t-muted { color: var(--text-muted); }
+  .t-mono { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.875rem; color: var(--text-muted); }
+  .accent { color: var(--accent); }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    font-family: inherit; font-weight: 600; font-size: 14px;
+    padding: 10px 18px; border-radius: var(--radius); border: 1px solid transparent;
+    cursor: pointer; transition: all 180ms; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: var(--shadow-sm); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--elevated); color: var(--text); border-color: var(--border-strong); }
+  .btn-secondary:hover { background: var(--surface-2); border-color: var(--text-subtle); }
+  .btn-ghost { background: transparent; color: var(--text); }
+  .btn-ghost:hover { background: var(--surface); }
+  .btn-outline { background: transparent; color: var(--accent); border-color: var(--accent); }
+  .btn-outline:hover { background: var(--accent-soft); }
+  .btn-subtle { background: var(--accent-soft); color: var(--accent); }
+  .btn-subtle:hover { background: color-mix(in srgb, var(--accent-soft) 70%, var(--accent) 15%); }
+  .btn-lg { padding: 13px 24px; font-size: 15px; }
+
+  /* Product card */
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .product-card {
+    background: var(--elevated); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden; transition: all 220ms; cursor: pointer; box-shadow: var(--shadow-sm);
+  }
+  .product-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--border-strong); }
+  .product-img { aspect-ratio: 4/5; background: linear-gradient(135deg, var(--surface-2), var(--surface)); display: flex; align-items: center; justify-content: center; color: var(--text-subtle); font-size: 12px; position: relative; }
+  .product-tag { position: absolute; top: 12px; left: 12px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); }
+  .product-info { padding: 16px 18px; }
+  .product-cat { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+  .product-name { font-weight: 600; font-size: 1rem; letter-spacing: -0.01em; margin-bottom: 8px; line-height: 1.3; }
+  .product-price { font-weight: 700; font-size: 1.0625rem; color: var(--text); font-variant-numeric: tabular-nums; }
+  .product-price .cur { color: var(--text-muted); font-weight: 500; font-size: 0.875rem; margin-right: 2px; }
+
+  /* Stat card */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .stat-card { background: var(--elevated); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow-sm); }
+  .stat-label { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 10px; }
+  .stat-value { font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; }
+  .stat-trend { font-size: 12px; font-weight: 600; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; }
+  .stat-trend.up { color: var(--success); }
+  .stat-trend.down { color: var(--accent); }
+
+  /* Form */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 680px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 13px; font-weight: 500; color: var(--text); }
+  .form-input { background: var(--elevated); border: 1px solid var(--border-strong); color: var(--text); padding: 10px 14px; border-radius: var(--radius); font-family: inherit; font-size: 14px; transition: all 180ms; }
+  .form-input::placeholder { color: var(--text-subtle); }
+  .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-ring); }
+  .form-input.error { border-color: var(--accent); }
+  .form-error { font-size: 12px; color: var(--accent); font-weight: 500; }
+  .form-hint { font-size: 12px; color: var(--text-subtle); }
+
+  /* Badges */
+  .badge-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge { border-radius: var(--radius-full); padding: 3px 11px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .badge-success { background: color-mix(in srgb, var(--success) 12%, transparent); color: var(--success); }
+  .badge-danger { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
+  .badge-warning { background: color-mix(in srgb, var(--warning) 14%, transparent); color: var(--warning); }
+  .badge-info { background: color-mix(in srgb, var(--info) 12%, transparent); color: var(--info); }
+  .badge-neutral { background: var(--surface-2); color: var(--text-muted); }
+  .badge-neutral::before { display: none; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+  table { width: 100%; border-collapse: collapse; background: var(--elevated); }
+  th { background: var(--surface); text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); text-transform: none; letter-spacing: 0; }
+  td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface); }
+
+  /* Modal */
+  .modal-demo { background: var(--elevated); border: 1px solid var(--border); border-radius: var(--radius-lg); max-width: 460px; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .modal-header { padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; }
+  .modal-title { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.015em; }
+  .modal-body { padding: 8px 22px 22px; color: var(--text-muted); font-size: 14px; }
+  .modal-footer { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; background: var(--surface); }
+
+  /* Hero */
+  .hero-demo {
+    position: relative; border-radius: var(--radius-lg); overflow: hidden;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    padding: 56px; min-height: 360px; display: flex; flex-direction: column; justify-content: flex-end;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-demo::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 75% 20%, rgba(220,38,38,0.25), transparent 50%); }
+  .hero-content { position: relative; z-index: 1; max-width: 560px; }
+  .hero-eyebrow { font-size: 13px; font-weight: 600; color: #fca5a5; letter-spacing: 0.02em; margin-bottom: 14px; }
+  .hero-title { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; color: #fff; }
+  .hero-sub { color: #cbd5e1; margin-top: 14px; font-size: 1.0625rem; max-width: 460px; }
+  .hero-actions { margin-top: 24px; display: flex; gap: 12px; }
+  .hero-stats { display: flex; gap: 36px; margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); }
+  .hero-stat-num { font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .hero-stat-label { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+  /* Nav tabs demo */
+  .nav-demo { display: flex; gap: 4px; background: var(--surface); padding: 4px; border-radius: var(--radius); border: 1px solid var(--border); width: fit-content; }
+  .nav-item { padding: 7px 14px; font-size: 13px; font-weight: 500; color: var(--text-muted); border-radius: 7px; cursor: pointer; transition: all 160ms; }
+  .nav-item.active { background: var(--elevated); color: var(--text); box-shadow: var(--shadow-sm); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .note { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent); border-radius: var(--radius); padding: 14px 18px; font-size: 13px; color: var(--text); margin-top: 24px; }
+  .note strong { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .form-grid, .grid-2 { grid-template-columns: 1fr; }
+    .t-display { font-size: 2.25rem; }
+    .t-h1 { font-size: 1.75rem; }
+    .hero-title { font-size: 1.75rem; }
+    .hero-stats { gap: 20px; }
+    section { padding: 48px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="brand"><span class="dot"></span><span class="name">LeaderHub<span> · Design System</span></span></div>
+    <div class="header-actions">
+      <button class="toggle-btn" onclick="document.documentElement.classList.toggle('dark')">Mode</button>
+    </div>
+  </div>
+</header>
+
+<!-- Colors -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Foundations</div>
+    <h2 class="section-title">Color</h2>
+    <p class="section-sub">Neutral-first palette dengan aksen merah yang dipakai secukupnya. Modern, tenang, premium — bukan agresif.</p>
+    <div class="color-grid" id="colorGrid"></div>
+  </div>
+</section>
+
+<!-- Typography -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Foundations</div>
+    <h2 class="section-title">Typography</h2>
+    <p class="section-sub">Inter untuk semuanya — heading & body. Bobot dan letter-spacing yang rapat, tanpa uppercase berlebihan.</p>
+    <div class="type-stack">
+      <div class="type-row"><span class="type-meta">Display 48px</span><span class="t-display">Performa yang <span class="accent">terkurasi</span></span></div>
+      <div class="type-row"><span class="type-meta">H1 36px</span><span class="t-h1">Distributor alat fitness premium</span></div>
+      <div class="type-row"><span class="type-meta">H2 28px</span><span class="t-h2">Katalog produk</span></div>
+      <div class="type-row"><span class="type-meta">H3 22px</span><span class="t-h3">Detail produk</span></div>
+      <div class="type-row"><span class="type-meta">H4 18px</span><span class="t-h4">Card title</span></div>
+      <div class="type-row"><span class="type-meta">Body Lg 18px</span><span class="t-body-lg">LeaderHub menyatukan website, ERP, dan software gym dalam satu monorepo.</span></div>
+      <div class="type-row"><span class="type-meta">Body 16px</span><span class="t-body">Komponen dibangun di atas design tokens yang sama untuk semua aplikasi.</span></div>
+      <div class="type-row"><span class="type-meta">Muted</span><span class="t-body t-muted">Teks sekunder untuk meta, label, dan deskripsi.</span></div>
+      <div class="type-row"><span class="type-meta">Mono 14px</span><span class="t-mono">SKU: LDR-TREAD-PRO-2026 · INQ-2026-00001</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Buttons -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components</div>
+    <h2 class="section-title">Buttons</h2>
+    <p class="section-sub">Radius 10px, bobot 600, transisi halus. Aksen merah hanya untuk aksi utama.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary">Kirim Inquiry</button>
+      <button class="btn btn-secondary">Lihat Detail</button>
+      <button class="btn btn-outline">Hubungi via WA</button>
+      <button class="btn btn-subtle">Subtle</button>
+      <button class="btn btn-ghost">Batal</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+    </div>
+  </div>
+</section>
+
+<!-- Product Cards -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components</div>
+    <h2 class="section-title">Product Card</h2>
+    <p class="section-sub">Rasio 4:5, border halus, lift lembut saat hover. Tanpa filter grayscale dramatis.</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-img"><span class="product-tag">Featured</span>4:5</div>
+        <div class="product-info">
+          <div class="product-cat">Cardio</div>
+          <div class="product-name">Treadmill Pro X1</div>
+          <div class="product-price"><span class="cur">Rp</span>45.000.000</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><span class="product-tag" style="background:var(--text);color:var(--bg)">New</span>4:5</div>
+        <div class="product-info">
+          <div class="product-cat">Strength</div>
+          <div class="product-name">Dumbbell Set 20kg</div>
+          <div class="product-price"><span class="cur">Rp</span>2.500.000</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">4:5</div>
+        <div class="product-info">
+          <div class="product-cat">Machine</div>
+          <div class="product-name">Smith Machine</div>
+          <div class="product-price"><span class="cur">Rp</span>28.000.000</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Admin Stat Cards -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components · Admin</div>
+    <h2 class="section-title">Stat Card</h2>
+    <p class="section-sub">Dashboard Filament — konsisten antara LeaderP & LeadGym.</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-value">Rp 1,2M</div>
+        <div class="stat-trend up">↑ 12,5% vs bulan lalu</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Members</div>
+        <div class="stat-value">847</div>
+        <div class="stat-trend down">↓ 3,2% vs bulan lalu</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Stock Value</div>
+        <div class="stat-value">$ 84K</div>
+        <div class="stat-trend up">↑ 5,1% vs bulan lalu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Forms -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components</div>
+    <h2 class="section-title">Form Inputs</h2>
+    <p class="section-sub">Focus ring lembut dengan warna aksen. Label ringkas, bobot 500.</p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Nama Lengkap</label>
+        <input class="form-input" placeholder="John Doe">
+        <span class="form-hint">Seperti yang tertera di KTP</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">No. WhatsApp</label>
+        <input class="form-input" placeholder="0812xxxxxxx">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input error" value="invalid-email">
+        <span class="form-error">Format email tidak valid</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pesan</label>
+        <input class="form-input" placeholder="Saya tertarik dengan...">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Badges -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components</div>
+    <h2 class="section-title">Badges</h2>
+    <div class="badge-row">
+      <span class="badge badge-success">Active</span>
+      <span class="badge badge-danger">Expired</span>
+      <span class="badge badge-warning">Pending</span>
+      <span class="badge badge-info">Info</span>
+      <span class="badge badge-neutral">Draft</span>
+    </div>
+  </div>
+</section>
+
+<!-- Table -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components · Admin</div>
+    <h2 class="section-title">Data Table</h2>
+    <p class="section-sub">Header netral, hover row lembut, tanpa uppercase berlebih.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>SKU</th><th>Product</th><th>Stock</th><th>Price</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="t-mono">LDR-TREAD-X1</td><td>Treadmill Pro X1</td><td>12</td><td>Rp 45.000.000</td><td><span class="badge badge-success">Active</span></td></tr>
+          <tr><td class="t-mono">LDR-DUMB-20</td><td>Dumbbell Set 20kg</td><td>0</td><td>Rp 2.500.000</td><td><span class="badge badge-danger">Out of stock</span></td></tr>
+          <tr><td class="t-mono">LDR-SMITH-01</td><td>Smith Machine</td><td>5</td><td>Rp 28.000.000</td><td><span class="badge badge-warning">Low stock</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components</div>
+    <h2 class="section-title">Modal</h2>
+    <div class="modal-demo">
+      <div class="modal-header">
+        <div class="modal-title">Konfirmasi hapus</div>
+        <button class="btn btn-ghost" style="padding:4px 10px">×</button>
+      </div>
+      <div class="modal-body">Apakah Anda yakin ingin menghapus item ini? Tindakan ini tidak dapat dibatalkan.</div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost">Batal</button>
+        <button class="btn btn-primary">Hapus</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Sections · Website</div>
+    <h2 class="section-title">Hero</h2>
+    <p class="section-sub">Gradien gelap dengan glow aksen lembut. Heading rapat, sub-text netral, CTA jelas.</p>
+    <div class="hero-demo">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Distributor alat fitness premium</div>
+        <div class="hero-title">Built for <span class="accent">champions</span></div>
+        <div class="hero-sub">Etalase digital premium untuk alat fitness kelas atas — browse, pilih, dan kirim daftar minat dalam hitungan menit.</div>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg">Jelajahi katalog</button>
+          <button class="btn btn-secondary btn-lg" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.18)">Hubungi kami</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">500+</div><div class="hero-stat-label">Produk</div></div>
+          <div><div class="hero-stat-num">15K+</div><div class="hero-stat-label">Atlet</div></div>
+          <div><div class="hero-stat-num">10</div><div class="hero-stat-label">Tahun</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Nav tabs -->
+<section>
+  <div class="container">
+    <div class="eyebrow">Components</div>
+    <h2 class="section-title">Segmented Nav</h2>
+    <p class="section-sub">Navigasi tab modern — dipakai di filter, settings, dan admin.</p>
+    <div class="nav-demo">
+      <div class="nav-item active">Overview</div>
+      <div class="nav-item">Products</div>
+      <div class="nav-item">Inquiries</div>
+      <div class="nav-item">Settings</div>
+    </div>
+    <div class="note"><strong>Catatan:</strong> Arah design ini <em>modern premium</em> — netral-first, aksen merah dipakai secukupnya, tipografi Inter rapat tanpa uppercase berlebih, radius lembut (10–14px), dan shadow halus. Buka tombol <strong>Mode</strong> di kanan atas untuk toggle dark/light.</div>
+  </div>
+</section>
+
+<footer style="padding:40px 0;text-align:center;color:var(--text-subtle);font-size:13px">
+  <div class="container">LeaderHub Design System v1.1 — Modern Premium</div>
+</footer>
+
+<script>
+  const colors = [
+    ['bg','Latar belakang'],
+    ['surface','Permukaan'],
+    ['surface-2','Permukaan 2'],
+    ['elevated','Elevated'],
+    ['text','Teks utama'],
+    ['text-muted','Teks sekunder'],
+    ['text-subtle','Teks tersier'],
+    ['border','Border'],
+    ['border-strong','Border kuat'],
+    ['accent','Aksen merah'],
+    ['accent-soft','Aksen lembut'],
+    ['success','Sukses'],
+    ['warning','Peringatan'],
+    ['info','Info'],
+  ];
+  const grid = document.getElementById('colorGrid');
+  colors.forEach(([name,usage]) => {
+    const card = document.createElement('div');
+    card.className = 'color-card';
+    card.innerHTML = `
+      <div class="color-swatch" style="background:var(--${name})"></div>
+      <div class="color-info">
+        <div class="color-name">${name}</div>
+        <div class="color-hex">${usage}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+</script>
+</body>
+</html>

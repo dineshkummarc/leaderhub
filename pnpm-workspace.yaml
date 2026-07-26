@@ -1,0 +1,6 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+allowBuilds:
+  '@bundled-es-modules/glob': set this to true or false
+  style-dictionary: set this to true or false

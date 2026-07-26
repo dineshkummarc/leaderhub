@@ -1,0 +1,80 @@
+# ── Dependencies ──────────────────────────────────────────────────
+/vendor/
+/node_modules/
+core/vendor/
+apps/*/vendor/
+apps/*/node_modules/
+.opencode/node_modules/
+
+# ── Turborepo ─────────────────────────────────────────────────────
+.turbo/
+out/
+
+# ── Environment ───────────────────────────────────────────────────
+.env
+.env.*
+credentials/
+
+# ── Runtime & cache ───────────────────────────────────────────────
+storage/app/public/*
+!/storage/app/public/.gitkeep
+**/storage/framework/cache/
+**/storage/framework/sessions/
+**/storage/framework/views/
+**/storage/framework/testing/
+**/storage/logs/
+**/bootstrap/cache/
+*.sqlite
+*.log
+
+# ── Build output ──────────────────────────────────────────────────
+**/public/build/
+**/public/hot
+**/public/storage
+npm-debug.log
+yarn-error.log
+
+# ── Generated docs ────────────────────────────────────────────────
+**/.scribe/
+
+# ── Test artifacts ────────────────────────────────────────────────
+.phpunit.cache/
+.phpunit.result.cache/
+playwright-report/
+test-results/
+
+# ── Graphify knowledge graph (regeneratable) ──────────────────────
+graphify-out/
+
+# ── Editor / IDE ──────────────────────────────────────────────────
+.idea/
+.vscode/
+.zed/
+.fleet/
+.codex/
+.nova/
+
+# ── Agent / CLI config (machine-local, replicatable) ──────────────
+.agent/
+.agents/
+.claude/
+.opencode/
+
+# ── Project-local config files ────────────────────────────────────
+boost.json
+opencode.json
+.phpactor.json
+.nativephp
+/auth.json
+Homestead.json
+Homestead.yaml
+
+# ── OS files ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+.env
+.env.*
+*.sqlite
+*.sqlite3
+

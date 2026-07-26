@@ -1,0 +1,11 @@
+{
+  "name": "@leaderhub/root",
+  "private": true,
+  "scripts": {
+    "build:tokens": "pnpm --filter @leaderhub/design-tokens build",
+    "build:all": "pnpm -r build",
+    "dev:website": "pnpm --filter @leaderhub/website dev",
+    "dev:hub": "pnpm --filter @leaderhub/hub dev",
+    "dev:gym": "pnpm --filter @leaderhub/gym dev"
+  }
+}

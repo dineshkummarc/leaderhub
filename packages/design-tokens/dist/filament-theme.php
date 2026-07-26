@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'color-primary-50' => '#eff6ff',
+    'color-primary-100' => '#dbeafe',
+    'color-primary-500' => '#3b82f6',
+    'color-primary-900' => '#1e3a8a',
+];

@@ -1,0 +1,35 @@
+{
+  "name": "leaderhub/root",
+  "description": "LeaderHub Monorepo Root",
+  "type": "project",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "path",
+      "url": "./core",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "./packages/design-tokens",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "require": {
+    "php": "^8.2"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "php-http/discovery": true
+    }
+  },
+  "require-dev": {
+    "laravel/boost": "^2.4"
+  }
+}
