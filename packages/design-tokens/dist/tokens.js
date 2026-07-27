@@ -4,67 +4,220 @@
 
 module.exports = {
   color: {
-    primary: {
-      50: {
-        value: "#eff6ff",
+    bg: {
+      value: "#FFFFFF",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#FFFFFF",
+      },
+      name: "ColorBg",
+      attributes: {
+        category: "color",
+        type: "bg",
+      },
+      path: ["color", "bg"],
+    },
+    surface: {
+      value: "#F8FAFC",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#F8FAFC",
+      },
+      name: "ColorSurface",
+      attributes: {
+        category: "color",
+        type: "surface",
+      },
+      path: ["color", "surface"],
+    },
+    "surface-2": {
+      value: "#F1F5F9",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#F1F5F9",
+      },
+      name: "ColorSurface2",
+      attributes: {
+        category: "color",
+        type: "surface-2",
+      },
+      path: ["color", "surface-2"],
+    },
+    elevated: {
+      value: "#FFFFFF",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#FFFFFF",
+      },
+      name: "ColorElevated",
+      attributes: {
+        category: "color",
+        type: "elevated",
+      },
+      path: ["color", "elevated"],
+    },
+    text: {
+      value: "#0F172A",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#0F172A",
+      },
+      name: "ColorText",
+      attributes: {
+        category: "color",
+        type: "text",
+      },
+      path: ["color", "text"],
+    },
+    "text-muted": {
+      value: "#64748B",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#64748B",
+      },
+      name: "ColorTextMuted",
+      attributes: {
+        category: "color",
+        type: "text-muted",
+      },
+      path: ["color", "text-muted"],
+    },
+    "text-subtle": {
+      value: "#94A3B8",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#94A3B8",
+      },
+      name: "ColorTextSubtle",
+      attributes: {
+        category: "color",
+        type: "text-subtle",
+      },
+      path: ["color", "text-subtle"],
+    },
+    border: {
+      value: "#E2E8F0",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#E2E8F0",
+      },
+      name: "ColorBorder",
+      attributes: {
+        category: "color",
+        type: "border",
+      },
+      path: ["color", "border"],
+    },
+    "border-strong": {
+      value: "#CBD5E1",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#CBD5E1",
+      },
+      name: "ColorBorderStrong",
+      attributes: {
+        category: "color",
+        type: "border-strong",
+      },
+      path: ["color", "border-strong"],
+    },
+    accent: {
+      DEFAULT: {
+        value: "#DC2626",
         filePath: "tokens.json",
         isSource: true,
         original: {
-          value: "#eff6ff",
+          value: "#DC2626",
         },
-        name: "ColorPrimary50",
+        name: "ColorAccentDefault",
         attributes: {
           category: "color",
-          type: "primary",
-          item: "50",
+          type: "accent",
+          item: "DEFAULT",
         },
-        path: ["color", "primary", "50"],
+        path: ["color", "accent", "DEFAULT"],
       },
-      100: {
-        value: "#dbeafe",
+      hover: {
+        value: "#B91C1C",
         filePath: "tokens.json",
         isSource: true,
         original: {
-          value: "#dbeafe",
+          value: "#B91C1C",
         },
-        name: "ColorPrimary100",
+        name: "ColorAccentHover",
         attributes: {
           category: "color",
-          type: "primary",
-          item: "100",
+          type: "accent",
+          item: "hover",
         },
-        path: ["color", "primary", "100"],
+        path: ["color", "accent", "hover"],
       },
-      500: {
-        value: "#3b82f6",
+      soft: {
+        value: "#FEF2F2",
         filePath: "tokens.json",
         isSource: true,
         original: {
-          value: "#3b82f6",
+          value: "#FEF2F2",
         },
-        name: "ColorPrimary500",
+        name: "ColorAccentSoft",
         attributes: {
           category: "color",
-          type: "primary",
-          item: "500",
+          type: "accent",
+          item: "soft",
         },
-        path: ["color", "primary", "500"],
+        path: ["color", "accent", "soft"],
       },
-      900: {
-        value: "#1e3a8a",
-        filePath: "tokens.json",
-        isSource: true,
-        original: {
-          value: "#1e3a8a",
-        },
-        name: "ColorPrimary900",
-        attributes: {
-          category: "color",
-          type: "primary",
-          item: "900",
-        },
-        path: ["color", "primary", "900"],
+    },
+    success: {
+      value: "#16A34A",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#16A34A",
       },
+      name: "ColorSuccess",
+      attributes: {
+        category: "color",
+        type: "success",
+      },
+      path: ["color", "success"],
+    },
+    warning: {
+      value: "#D97706",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#D97706",
+      },
+      name: "ColorWarning",
+      attributes: {
+        category: "color",
+        type: "warning",
+      },
+      path: ["color", "warning"],
+    },
+    info: {
+      value: "#2563EB",
+      filePath: "tokens.json",
+      isSource: true,
+      original: {
+        value: "#2563EB",
+      },
+      name: "ColorInfo",
+      attributes: {
+        category: "color",
+        type: "info",
+      },
+      path: ["color", "info"],
     },
   },
 };

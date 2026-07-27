@@ -5,11 +5,13 @@
   "require": {
     "php": "^8.2",
     "illuminate/support": "^11.0|^12.0",
-    "illuminate/database": "^11.0|^12.0"
+    "illuminate/database": "^11.0|^12.0",
+    "intervention/image": "^4.2"
   },
   "autoload": {
     "psr-4": {
-      "Leaderhub\\Core\\": "src/"
+      "Leaderhub\\Core\\": "src/",
+      "Leaderhub\\Core\\Database\\Seeders\\": "database/seeders/"
     }
   },
   "extra": {

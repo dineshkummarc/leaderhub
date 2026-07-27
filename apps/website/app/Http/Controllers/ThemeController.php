@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ class ThemeController extends Controller
     {
         $theme = session('theme', 'light') === 'light' ? 'dark' : 'light';
         session(['theme' => $theme]);
+
         return response()->json(['theme' => $theme]);
     }
 
@@ -16,6 +18,7 @@ class ThemeController extends Controller
     {
         $locale = session('locale', config('app.locale')) === 'id' ? 'en' : 'id';
         session(['locale' => $locale]);
+
         return response()->json(['locale' => $locale]);
     }
 }

@@ -1,30 +1,57 @@
-# Spec: product-catalog
+## ADDED Requirements
 
-## Requirements
+### Requirement: Listing Page
+`GET /products` SHALL display a grid of 12 products per page with: filter sidebar (category, brand, price min/max), search input, sort dropdown (newest, price asc, price desc, name A-Z), and pagination.
 
-### REQ-001: Listing Page
-`GET /products` MUST display a grid of 12 products per page with: filter sidebar (category, brand, price min/max), search input, sort dropdown (newest, price asc, price desc, name A-Z), pagination.
+#### Scenario: Products are paginated at 12 per page
+- **WHEN** user navigates to `/products` and there are 30 published products
+- **THEN** the page MUST display 12 products and pagination links
 
-### REQ-002: Product Card
-Each product card MUST show: image (aspect 4:5), category label, name (weight 600), price (tabular-nums, IDR formatted). Hover: lift -2px + shadow-lg.
+### Requirement: Product Card
+Each product card SHALL show: image (aspect 4:5), category label, name (weight 600), price (tabular-nums, IDR formatted). Hover SHALL lift the card -2px with shadow-lg.
 
-### REQ-003: Detail Page
-`GET /products/{slug}` MUST display: image gallery (main + thumbnails swap), name (h1), SKU (mono), brand, price, description, specs table, related products (4, same category), "Tambah ke Daftar Minat" button, "Hubungi via WA" button.
+#### Scenario: Product card displays price in IDR format
+- **WHEN** a product card with sale_price_idr = 45000000 is rendered
+- **THEN** the price MUST display as "Rp 45.000.000" with tabular-nums
 
-### REQ-004: Filter & Search
-Filter by category MUST filter via `category` query param (slug). Search MUST use fullText on `name` and `sku`. Sort MUST apply correct ORDER BY. Pagination MUST preserve query string via `withQueryString()`.
+### Requirement: Detail Page
+`GET /products/{slug}` SHALL display: image gallery (main + thumbnails swap), name as H1, SKU (mono), brand, price, description, specs table, related products (4, same category), "Tambah ke Daftar Minat" button, "Hubungi via WA" button.
 
-### REQ-005: Related Products
-Detail page MUST show up to 4 related products from the same category, excluding the current product.
+#### Scenario: Thumbnail click swaps main image
+- **WHEN** user clicks a thumbnail image on the product detail page
+- **THEN** the main image MUST update to show the clicked thumbnail's image
 
-### REQ-006: JSON-LD Product
-Detail page MUST include JSON-LD Product schema with: name, sku, brand, description, offers (priceCurrency IDR, price, availability InStock).
+### Requirement: Filter and Search
+Filter by category SHALL filter via `category` query param (slug). Search SHALL use fullText on `name` and `sku`. Sort SHALL apply correct ORDER BY. Pagination SHALL preserve query string via `withQueryString()`.
 
-### REQ-007: Caching
-Product listing MUST be cached 60 min per query string. Product detail MUST be cached 60 min per slug. Cache invalidated on product update.
+#### Scenario: Filter preserves search query in pagination
+- **WHEN** user searches for "treadmill" and navigates to page 2
+- **THEN** the URL MUST include `?q=treadmill&page=2`
 
-### REQ-008: Empty State
-When no products match filters, an empty state message MUST be displayed.
+### Requirement: Related Products
+Detail page SHALL show up to 4 related products from the same category, excluding the current product.
 
-### REQ-009: 404 for Invalid Slug
-`GET /products/{nonexistent-slug}` MUST return 404.
+#### Scenario: Related products exclude current product
+- **WHEN** user views product detail for "Treadmill Pro X1"
+- **THEN** the related products section MUST NOT include "Treadmill Pro X1"
+
+### Requirement: JSON-LD Product
+Detail page SHALL include JSON-LD Product schema with: name, sku, brand, description, offers (priceCurrency IDR, price, availability InStock).
+
+#### Scenario: Product schema is valid
+- **WHEN** developer validates the product detail page JSON-LD at validator.schema.org
+- **THEN** the Product schema MUST pass validation
+
+### Requirement: 404 for Invalid Slug
+`GET /products/{nonexistent-slug}` SHALL return a 404 response.
+
+#### Scenario: Invalid slug returns 404
+- **WHEN** user navigates to `/products/nonexistent-product`
+- **THEN** the server MUST return HTTP 404
+
+### Requirement: Empty State
+When no products match filters, an empty state message SHALL be displayed.
+
+#### Scenario: No products match filter
+- **WHEN** user filters by a category with no products
+- **THEN** the page MUST display an empty state message instead of an empty grid

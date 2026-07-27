@@ -1,21 +1,29 @@
-# Spec: seo-basics
+## ADDED Requirements
 
-## Requirements
+### Requirement: Sitemap
+`GET /sitemap.xml` SHALL return a valid XML sitemap containing URLs for: homepage, products index, gallery index, all published products, all published pages. Each URL SHALL have `priority` and `lastmod`.
 
-### REQ-001: Sitemap
-`GET /sitemap.xml` MUST return a valid XML sitemap containing URLs for: homepage, products index, gallery index, all published products, all published pages. Each URL MUST have `priority` and `lastmod`.
+#### Scenario: Sitemap includes all published products
+- **WHEN** developer accesses `/sitemap.xml`
+- **THEN** the XML MUST contain a `<url>` entry for every published product
 
-### REQ-002: Robots.txt
-`public/robots.txt` MUST exist with `User-agent: *`, `Allow: /`, and `Sitemap: https://leaderhub.id/sitemap.xml`.
+### Requirement: Robots.txt
+A `public/robots.txt` file SHALL exist with `User-agent: *`, `Allow: /`, and `Sitemap: https://leaderhub.id/sitemap.xml`.
 
-### REQ-003: JSON-LD Organization
-The base layout MUST include JSON-LD Organization schema with: name (LeaderHub), url, logo, contactPoint (telephone, contactType sales).
+#### Scenario: Robots.txt is accessible
+- **WHEN** user accesses `/robots.txt`
+- **THEN** the file MUST be served with the correct content including the sitemap URL
 
-### REQ-004: JSON-LD Product
-Product detail pages MUST include JSON-LD Product schema (see product-catalog spec REQ-006).
+### Requirement: JSON-LD Organization
+The base layout SHALL include JSON-LD Organization schema with: name (LeaderHub), url, logo, contactPoint (telephone, contactType sales).
 
-### REQ-005: Meta Tags
-Each page MUST have: `<title>` (page-specific or default), `<meta name="description">` (from page or settings seo_description). Product pages MUST use product-specific SEO fields if set.
+#### Scenario: Organization schema is on every page
+- **WHEN** developer inspects any page's HTML source
+- **THEN** a JSON-LD script tag with `@type: Organization` MUST be present
 
-### REQ-006: Canonical
-Each page MUST have a canonical URL tag to prevent duplicate content issues.
+### Requirement: Meta Tags
+Each page SHALL have: `<title>` (page-specific or default), `<meta name="description">` (from page or settings seo_description). Product pages SHALL use product-specific SEO fields if set.
+
+#### Scenario: Product page has specific title
+- **WHEN** user views a product detail page
+- **THEN** the `<title>` tag MUST contain the product name
