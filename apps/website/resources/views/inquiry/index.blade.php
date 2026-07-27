@@ -107,6 +107,16 @@
 
 @section('head')
 <script>
+// Product image map from server (fallback for old cart items without images)
+var PRODUCT_IMAGE_MAP = @json($productImageMap);
+
+// Helper: get best available image for a cart item
+function getItemImage(item) {
+    if (item.image) return item.image;
+    if (PRODUCT_IMAGE_MAP && PRODUCT_IMAGE_MAP[item.product_id]) return PRODUCT_IMAGE_MAP[item.product_id];
+    return '';
+}
+
 // Inline script untuk render cart items dan populate hidden inputs
 document.addEventListener('DOMContentLoaded', function () {
     // We use the module's functions via the global window
@@ -141,18 +151,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let html = '';
         cart.items.forEach(function (item, idx) {
+            var imgSrc = getItemImage(item);
+            var detailUrl = '/products/' + (item.slug || '');
             html += `
-            <div class="inquiry-item flex items-center justify-between bg-elevated border border-border rounded-[12px] p-4" data-index="${idx}">
+            <div class="inquiry-item flex items-center gap-4 bg-elevated border border-border rounded-[12px] p-4" data-index="${idx}">
+                <!-- Product Image Thumbnail -->
+                <a href="${detailUrl}" class="shrink-0 w-16 h-16 rounded-[10px] overflow-hidden bg-surface border border-border">
+                    ${imgSrc
+                        ? '<img src="' + imgSrc + '" alt="' + item.name + '" class="w-full h-full object-cover">'
+                        : '<div class="w-full h-full flex items-center justify-center text-text-subtle"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>'
+                    }
+                </a>
+                <!-- Product Info -->
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-semibold text-text truncate">${item.name}</p>
+                    <a href="${detailUrl}" class="text-sm font-semibold text-text hover:text-accent transition-colors truncate block">${item.name}</a>
+                    ${item.slug ? '<p class="text-[11px] text-text-subtle mt-0.5">SKU: ' + item.slug.toUpperCase() + '</p>' : ''}
                 </div>
-                <div class="flex items-center gap-3 shrink-0 ml-4">
-                    <label class="text-xs text-text-muted">Qty:</label>
-                    <input type="number" value="${item.qty}" min="1"
-                        onchange="window.inquiryUpdateQty(${item.product_id}, this.value)"
-                        class="w-16 px-2 py-1 bg-surface border border-border rounded-[8px] text-sm text-text text-center focus:outline-none focus:ring-2 focus:ring-accent/20">
+                <!-- Quantity Controls -->
+                <div class="flex items-center gap-1 shrink-0">
+                    <button onclick="window.inquiryUpdateQty(${item.product_id}, ${item.qty - 1})"
+                        class="qty-btn qty-minus p-1.5 text-text-muted hover:text-text hover:bg-surface-2 rounded-md transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"></path>
+                        </svg>
+                    </button>
+                    <span class="qty-value w-8 text-center text-sm font-semibold text-text" data-product-id="${item.product_id}">${item.qty}</span>
+                    <button onclick="window.inquiryUpdateQty(${item.product_id}, ${item.qty + 1})"
+                        class="qty-btn qty-plus p-1.5 text-text-muted hover:text-text hover:bg-surface-2 rounded-md transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m7-7H5"></path>
+                        </svg>
+                    </button>
                     <button onclick="window.inquiryRemoveItem(${item.product_id})"
-                        class="p-1.5 text-text-muted hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors">
+                        class="p-1.5 ml-2 text-text-muted hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
                         </svg>
@@ -178,20 +209,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         renderCart();
         if (typeof updateBar === 'function') updateBar();
-
-        // If cart is now empty, also clear localStorage and hide bar
-        const cart = getCart();
-        if (cart.items.length === 0) {
-            const bar = document.getElementById('inquiry-bar');
-            if (bar) bar.classList.add('hidden');
-        }
     };
 
     window.inquiryUpdateQty = function (productId, qty) {
-        const { updateQty } = window;
+        qty = Math.max(1, parseInt(qty) || 1);
+        const { updateQty, updateBar } = window;
         if (typeof updateQty === 'function') {
-            updateQty(productId, parseInt(qty) || 1);
+            updateQty(productId, qty);
         }
+        // Update inline display
+        const qtySpan = document.querySelector(`.qty-value[data-product-id="${productId}"]`);
+        if (qtySpan) qtySpan.textContent = qty;
         // Regenerate hidden inputs with updated qty
         const cart = getCart();
         let hiddenHtml = '';
@@ -200,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hiddenHtml += `<input type="hidden" name="items[${idx}][qty]" value="${item.qty}">`;
         });
         hiddenItems.innerHTML = hiddenHtml;
+        if (typeof updateBar === 'function') updateBar();
     };
 
     renderCart();

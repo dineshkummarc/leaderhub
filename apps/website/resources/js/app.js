@@ -50,26 +50,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroSwiper = new Swiper('.hero-swiper', {
         modules: [Navigation, Pagination, Autoplay],
         loop: true,
+        slidesPerView: 1,
+        autoHeight: false,
+        resizeObserver: true,
         autoplay: { delay: 5000 },
         pagination: { el: '.swiper-pagination', clickable: true },
         navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
     });
     const themeToggle = document.getElementById('theme-toggle');
+    function setTheme(theme) {
+        localStorage.setItem('leaderhub_theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+    }
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            fetch('/api/theme', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-                }
-            }).then(res => res.json()).then(data => {
-                if (data.theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            });
+            const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+            setTheme(next);
         });
     }
 

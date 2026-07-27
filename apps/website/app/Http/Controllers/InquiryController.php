@@ -6,6 +6,8 @@ use App\Mail\InquiryReceived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
+use Leaderhub\Core\Models\Product;
 use Leaderhub\Core\Models\Setting;
 use Leaderhub\Core\Services\InquiryService;
 
@@ -13,7 +15,25 @@ class InquiryController extends Controller
 {
     public function index()
     {
-        return view('inquiry.index');
+        // Build image map for products so JS can show thumbnails even for old cart data
+        $products = Product::with('images')->get();
+        $imageMap = [];
+        foreach ($products as $p) {
+            $img = $p->featured_image;
+            if ($img) {
+                if (str_starts_with($img, 'http')) {
+                    $imageMap[$p->id] = $img;
+                } elseif (file_exists(public_path($img))) {
+                    $imageMap[$p->id] = asset($img);
+                } else {
+                    $imageMap[$p->id] = Storage::url($img);
+                }
+            }
+        }
+
+        return view('inquiry.index', [
+            'productImageMap' => $imageMap,
+        ]);
     }
 
     public function store(Request $request)

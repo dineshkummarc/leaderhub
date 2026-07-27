@@ -16,8 +16,9 @@
             <h4 class="text-xs font-semibold uppercase tracking-wider text-text-subtle mb-4">Navigasi</h4>
             <ul class="space-y-2.5 text-sm text-text-muted">
                 <li><a href="{{ route('products.index') }}" class="hover:text-accent transition-colors">Katalog Produk</a></li>
+                <li><a href="{{ route('blog.index') }}" class="hover:text-accent transition-colors">Blog</a></li>
                 <li><a href="{{ route('gallery.index') }}" class="hover:text-accent transition-colors">Galeri Proyek</a></li>
-                <li><a href="/about" class="hover:text-accent transition-colors">Tentang Kami</a></li>
+                <li><a href="{{ route('about') }}" class="hover:text-accent transition-colors">Tentang Kami</a></li>
             </ul>
         </div>
 
@@ -25,8 +26,8 @@
         <div>
             <h4 class="text-xs font-semibold uppercase tracking-wider text-text-subtle mb-4">Perusahaan</h4>
             <ul class="space-y-2.5 text-sm text-text-muted">
-                <li><a href="/about" class="hover:text-accent transition-colors">Profil Perusahaan</a></li>
-                <li><a href="/contact" class="hover:text-accent transition-colors">Hubungi Kami</a></li>
+                <li><a href="{{ route('about') }}" class="hover:text-accent transition-colors">Profil Perusahaan</a></li>
+                <li><a href="{{ route('contact') }}" class="hover:text-accent transition-colors">Hubungi Kami</a></li>
                 <li><a href="/terms" class="hover:text-accent transition-colors">Syarat & Ketentuan</a></li>
                 <li><a href="/privacy" class="hover:text-accent transition-colors">Kebijakan Privasi</a></li>
             </ul>

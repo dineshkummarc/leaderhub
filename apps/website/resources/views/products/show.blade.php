@@ -102,10 +102,11 @@
                 <p class="text-xs text-text-subtle font-mono">SKU: {{ $product->sku }}</p>
             </div>
 
-            @if($product->price)
+            @php $_sp = format_price($product->price); @endphp
+            @if($_sp)
                 <div class="p-4 bg-surface rounded-[10px] border border-border inline-block min-w-[200px]">
                     <span class="text-xs text-text-muted block">Estimasi Harga</span>
-                    <span class="text-2xl sm:text-3xl font-extrabold text-accent font-mono tracking-tight">${{ number_format($product->price, 2) }}</span>
+                    <span class="text-2xl sm:text-3xl font-extrabold text-accent font-mono tracking-tight">{{ $_sp }}</span>
                 </div>
             @endif
 
@@ -138,7 +139,11 @@
             @endif
 
             <!-- Hidden data element for inquiry cart -->
-            <span data-product-id="{{ $product->id }}" data-name="{{ $product->name }}" data-slug="{{ $product->slug }}" class="hidden"></span>
+            @php
+                $_inqImg = $product->featured_image;
+                $_inqImgUrl = $_inqImg ? (str_starts_with($_inqImg, 'http') ? $_inqImg : (file_exists(public_path($_inqImg)) ? asset($_inqImg) : Storage::url($_inqImg))) : '';
+            @endphp
+            <span data-product-id="{{ $product->id }}" data-name="{{ $product->name }}" data-slug="{{ $product->slug }}" data-image="{{ $_inqImgUrl }}" class="hidden"></span>
 
             <!-- Inquiry Action -->
             <div class="pt-2">

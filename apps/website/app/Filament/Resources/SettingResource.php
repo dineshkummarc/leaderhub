@@ -23,6 +23,7 @@ class SettingResource extends Resource
                 Forms\Components\Select::make('group')
                     ->options([
                         'general' => 'General',
+                        'hero' => 'Hero Section',
                         'contact' => 'Contact',
                         'social' => 'Social',
                         'seo' => 'SEO',
@@ -77,6 +78,7 @@ class SettingResource extends Resource
                 Tables\Filters\SelectFilter::make('group')
                     ->options([
                         'general' => 'General',
+                        'hero' => 'Hero Section',
                         'contact' => 'Contact',
                         'social' => 'Social',
                         'seo' => 'SEO',

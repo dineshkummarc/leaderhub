@@ -15,7 +15,7 @@ export function saveCart(cart) {
     updateBar();
 }
 
-export function addItem(productId, name, slug, qty = 1) {
+export function addItem(productId, name, slug, qty = 1, image = '') {
     const cart = getCart();
 
     // Check max items limit
@@ -27,12 +27,14 @@ export function addItem(productId, name, slug, qty = 1) {
     const existing = cart.items.find(i => i.product_id === productId);
     if (existing) {
         existing.qty += qty;
+        if (image) existing.image = image;
     } else {
         cart.items.push({
             product_id: productId,
             name,
             slug,
             qty,
+            image: image || '',
             added_at: new Date().toISOString()
         });
     }
@@ -65,14 +67,8 @@ export function getCount() {
 
 export function updateBar() {
     const count = getCount();
-    const bar = document.getElementById('inquiry-bar');
-    const countEls = document.querySelectorAll('#inquiry-count, #inquiry-bar-count');
-    if (count > 0) {
-        bar?.classList.remove('hidden');
-        countEls.forEach(el => { el.textContent = count; });
-    } else {
-        bar?.classList.add('hidden');
-    }
+    const badge = document.getElementById('inquiry-count');
+    if (badge) badge.textContent = count;
 }
 
 // Global function untuk dipanggil dari onclick di HTML
@@ -80,8 +76,8 @@ window.addToInquiry = function (productId) {
     const el = document.querySelector(`[data-product-id="${productId}"]`);
     const name = el?.dataset.name || 'Product';
     const slug = el?.dataset.slug || '';
-    addItem(productId, name, slug);
-    alert('Ditambahkan ke daftar minat');
+    const image = el?.dataset.image || '';
+    addItem(productId, name, slug, 1, image);
 };
 
 // Update bar saat page load

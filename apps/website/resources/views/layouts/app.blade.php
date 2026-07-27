@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ session('theme', 'light') === 'dark' ? 'dark' : '' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,20 @@
     @if(View::hasSection('seo_image'))
     <meta property="og:image" content="@yield('seo_image')">
     @endif
+
+    <!-- Blocking script: apply theme BEFORE render to prevent flash -->
+    <script>
+        (function() {
+            var stored = localStorage.getItem('leaderhub_theme');
+            var theme;
+            if (stored === 'dark' || stored === 'light') {
+                theme = stored;
+            } else {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        })();
+    </script>
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,6 +55,5 @@
     </main>
 
     @include('partials.footer')
-    @include('partials.inquiry-bar')
 </body>
 </html>

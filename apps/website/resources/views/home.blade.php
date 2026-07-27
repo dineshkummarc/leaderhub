@@ -4,17 +4,17 @@
 
 @section('content')
 <!-- Hero Section (Piku SaaS Option 1 Style with Fixed Content & Background Slider) -->
-<section class="relative w-full bg-slate-950 text-white overflow-hidden border-b border-border min-h-[620px] lg:min-h-[680px] flex items-center">
+<section class="hero-section relative w-full bg-slate-950 text-white overflow-hidden border-b border-border min-h-[580px] lg:min-h-[660px] flex items-center">
     
-    <!-- Background Swiper Slider (Only Background Image Slides) -->
+    <!-- Background Swiper Slider (Fills Entire Section Behind Content) -->
     <div class="swiper hero-swiper absolute inset-0 z-0 w-full h-full">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper !h-full">
             @forelse($banners as $banner)
                 @php
                     $bannerImg = $banner->image;
                     $bannerUrl = $bannerImg ? (str_starts_with($bannerImg, 'http') ? $bannerImg : (file_exists(public_path($bannerImg)) ? asset($bannerImg) : Storage::url($bannerImg))) : null;
                 @endphp
-                <div class="swiper-slide relative w-full h-full">
+                <div class="swiper-slide !h-full relative overflow-hidden">
                     @if($bannerUrl)
                         <img src="{{ $bannerUrl }}" alt="{{ $banner->title }}" loading="lazy" class="w-full h-full object-cover opacity-35">
                     @else
@@ -22,7 +22,7 @@
                     @endif
                 </div>
             @empty
-                <div class="swiper-slide relative w-full h-full">
+                <div class="swiper-slide !h-full relative overflow-hidden">
                     <div class="w-full h-full bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 opacity-50"></div>
                 </div>
             @endforelse
@@ -122,8 +122,9 @@
                                         {{ $hProduct->name }}
                                     </h3>
                                     <div class="flex items-center justify-between mt-1">
-                                        @if($hProduct->price)
-                                            <span class="text-xs font-bold text-slate-200 font-mono">${{ number_format($hProduct->price, 0) }}</span>
+                                        @php $_hp = format_price($hProduct->price); @endphp
+                                        @if($_hp)
+                                            <span class="text-xs font-bold text-slate-200 font-mono">{{ $_hp }}</span>
                                         @else
                                             <span class="text-[11px] text-slate-400 italic">Distributor Class</span>
                                         @endif
@@ -138,7 +139,7 @@
                     @empty
                         <!-- Default Fallback Card Deck if no products selected -->
                         <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-[14px] p-6 text-center">
-                            <p class="text-xs text-slate-400 mb-3">Kelola produk hero melalui Admin Panel dengan menandai produk sebagai Featured.</p>
+                            <p class="text-xs text-slate-400 mb-3">Atur produk hero melalui Admin Panel → Settings → Hero Section → <span class="font-mono text-accent">hero_product_ids</span></p>
                             <a href="{{ route('products.index') }}" class="text-xs font-semibold text-accent hover:underline">Lihat Semua Produk</a>
                         </div>
                     @endforelse

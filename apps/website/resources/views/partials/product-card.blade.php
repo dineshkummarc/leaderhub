@@ -12,7 +12,7 @@
     }
 @endphp
 
-<div class="bg-elevated rounded-[14px] border border-border overflow-hidden hover:border-border-strong hover:shadow-md transition-all duration-200 group flex flex-col h-full" data-product-id="{{ $product->id }}" data-name="{{ $product->name }}" data-slug="{{ $product->slug }}">
+<div class="bg-elevated rounded-[14px] border border-border overflow-hidden hover:border-border-strong hover:shadow-md transition-all duration-200 group flex flex-col h-full" data-product-id="{{ $product->id }}" data-name="{{ $product->name }}" data-slug="{{ $product->slug }}" data-image="{{ $imageUrl ?? '' }}">
     <!-- Image Container (4:5 Portrait Aspect Ratio) -->
     <a href="{{ route('products.show', $product->slug) }}" class="block relative aspect-[4/5] bg-surface overflow-hidden">
         @if($imageUrl)
@@ -48,10 +48,11 @@
         </div>
 
         <div class="flex items-center justify-between pt-2 border-t border-border/50">
-            @if($product->price)
+            @php $_fp = format_price($product->price); @endphp
+            @if($_fp)
                 <div>
                     <span class="text-[10px] text-text-subtle block">Harga Est.</span>
-                    <span class="text-base font-bold text-accent font-mono tracking-tight">${{ number_format($product->price, 0) }}</span>
+                    <span class="text-base font-bold text-accent font-mono tracking-tight">{{ $_fp }}</span>
                 </div>
             @else
                 <span class="text-xs text-text-muted italic">Hubungi kami</span>
