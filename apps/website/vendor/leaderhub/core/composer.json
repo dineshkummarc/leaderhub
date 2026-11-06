@@ -1,0 +1,26 @@
+{
+  "name": "leaderhub/core",
+  "description": "Shared Core Package for LeaderHub",
+  "type": "library",
+  "require": {
+    "php": "^8.2",
+    "illuminate/support": "^11.0|^12.0",
+    "illuminate/database": "^11.0|^12.0",
+    "intervention/image": "^4.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Leaderhub\\Core\\": "src/",
+      "Leaderhub\\Core\\Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Leaderhub\\Core\\CoreServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
